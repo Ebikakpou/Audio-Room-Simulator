@@ -1,4 +1,4 @@
-# Yeittu | Social Audio Live Room 🎙️
+# Audioly | Social Audio Live Room 🎙️
 
 Audioly is a modern, interactive social audio dashboard built to simulate real-time participant management. This project serves as a frontend prototype for a niche audio-first engagement platform.
 
