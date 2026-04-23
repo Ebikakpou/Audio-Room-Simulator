@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Yeittu | Live Room Studio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-container">
+        <aside class="controls">
+            <h2>Room Controls</h2>
+            <form id="member-form">
+                <input type="text" id="member-name" placeholder="Participant Name" required>
+                <select id="member-role">
+                    <option value="Speaker">Speaker 🎙️</option>
+                    <option value="Listener">Listener 👂</option>
+                </select>
+                <button type="submit" id="add-btn">Invite to Room</button>
+            </form>
+            <div class="stats">
+                <p>Total Members: <span id="total-count">0</span></p>
+            </div>
+        </aside>
+
+        <main class="stage">
+            <header>
+                <h1>Yeittu Live Room</h1>
+                <p>Discussion: Future of DevOps in Nigeria</p>
+            </header>
+            <div id="participant-grid" class="grid">
+                </div>
+        </main>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

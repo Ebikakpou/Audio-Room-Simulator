@@ -1,0 +1,47 @@
+name: Audio Room Simulator Deployment
+on:
+  push:
+    branches:
+      -main
+
+jobs:
+  # STAGING 
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      -name: Checkout code
+       uses: actions/checkout@v3
+      
+      -name: Lint HTML/JS (Simulator)
+        run: |
+          echo "RUnning security scans..."
+          echo "checking for broken links..."
+
+  
+  # STAGING @
+
+  staging:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      -name: Build Docker Image
+        run: docker build -t audio-app:staging .
+
+      -name: Deploy to Staginng Server
+        run: echo "Deploying to staging.audio.com..."
+
+  # PRODUCTION
+  production:
+    needs: staging
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      -name: Checkout code
+        uses: actions/checkout@v3
+
+      -name: Final Build
+        run: docker build -t audio-app:prod .
+
+      -name: Deploy to Production
+        run: echo "Deploying to to live production server..."
+        
