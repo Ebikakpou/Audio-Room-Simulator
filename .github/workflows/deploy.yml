@@ -1,47 +1,49 @@
-name: Audio Room Simulator Deployment
+name: Audioly CI-CD Pipeline
+
 on:
   push:
     branches:
-      -main
+      - main
 
 jobs:
-  # STAGING 
+  # STAGE 1: TEST
   test:
     runs-on: ubuntu-latest
     steps:
-      -name: Checkout code
-       uses: actions/checkout@v3
-      
-      -name: Lint HTML/JS (Simulator)
-        run: |
-          echo "RUnning security scans..."
-          echo "checking for broken links..."
-
-  
-  # STAGING @
-
-  staging:
-    needs: test
-    runs-on: ubuntu-latest
-    steps:
-      -name: Build Docker Image
-        run: docker build -t audio-app:staging .
-
-      -name: Deploy to Staginng Server
-        run: echo "Deploying to staging.audio.com..."
-
-  # PRODUCTION
-  production:
-    needs: staging
-    runs-on: ubuntu-latest
-    environment: production
-    steps:
-      -name: Checkout code
+      - name: Checkout code
         uses: actions/checkout@v3
 
-      -name: Final Build
+      - name: Lint HTML/JS (Simulation)
+        run: |
+          echo "Running security scans..."
+          echo "Checking for broken links..."
+          # In a real app, you might run 'npm test' here
+
+  # STAGE 2: STAGING (Build & Push Image)
+  staging:
+    needs: test # Only run if Test succeeds
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build Docker Image
+        run: docker build -t audio-app:staging .
+
+      - name: Deploy to Staging Server
+        run: echo "Deploying to staging.audio.com..."
+
+  # STAGE 3: PRODUCTION
+  production:
+    needs: staging # Only run if Staging succeeds
+    runs-on: ubuntu-latest
+    environment: production # Great for adding manual approval gates
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Final Build
         run: docker build -t audio-app:prod .
 
-      -name: Deploy to Production
-        run: echo "Deploying to to live production server..."
-        
+      - name: Deploy to Production
+        run: echo "Deploying to live production server..."
